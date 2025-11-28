@@ -35,13 +35,59 @@ def criar_gauge_risco(grupo_risco):
 def render_em_construcao(titulo, descricao_cientifica, tecnologias):
     st.markdown(f"""<div style="text-align: center; padding: 50px; background-color: #1a1c24; border: 1px dashed #444; border-radius: 15px; margin-top: 20px;"><div style="font-size: 50px; margin-bottom: 20px;">🚧</div><h2 style="color: #00d4ff; margin-bottom: 10px;">{titulo}</h2><span style="background: #333; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.75em; font-weight: bold; letter-spacing: 1px;">EM CONSTRUÇÃO • ROADMAP DOUTORADO</span><p style="color: #ccc; margin-top: 25px; font-size: 1.1em; line-height: 1.6; max-width: 800px; margin-left: auto; margin-right: auto;">{descricao_cientifica}</p><div style="margin-top: 30px; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto; background: #22252b; padding: 20px; border-radius: 10px;"><h5 style="color: #888; margin-bottom: 10px; font-size: 0.9em; text-transform: uppercase;">Tecnologias Previstas:</h5><div style="display: flex; flex-wrap: wrap; gap: 10px;">{''.join([f"<span style='background: #444; color: #aaa; padding: 5px 10px; border-radius: 5px; font-size: 0.8em;'>{tech}</span>" for tech in tecnologias])}</div></div></div>""", unsafe_allow_html=True)
 
-# --- SETUP ---
+# --- SETUP DA PÁGINA ---
 st.set_page_config(page_title="GBM Precision Oncology", page_icon="🧬", layout="wide")
-st.markdown("""<style>.stApp { background-color: #0e1117; } h1, h2, h3, h4, p, div, span { font-family: 'Segoe UI', sans-serif; color: #e0e0e0; } .medical-card { background-color: #1a1c24; border: 1px solid #2d303e; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); } div[data-testid="stMetric"] { background-color: #22252b !important; border-left: 4px solid #00d4ff; border-radius: 8px; padding: 10px 15px !important; } .risk-badge-high { background-color: #d32f2f; color: white; padding: 8px 20px; border-radius: 8px; font-weight: bold; white-space: nowrap; } .risk-badge-low { background-color: #2e7d32; color: white; padding: 8px 20px; border-radius: 8px; font-weight: bold; white-space: nowrap; } button[data-baseweb="tab"] { background-color: #161920 !important; border: 1px solid #2d303e !important; color: #aaa !important; margin-right: 2px; } button[data-baseweb="tab"][aria-selected="true"] { background-color: #00d4ff !important; color: #000 !important; font-weight: bold !important; border: none !important; } .dev-profile-card { background-color: #1a1c24; border: 1px solid #00d4ff; border-radius: 10px; padding: 15px; text-align: center; margin-bottom: 25px; box-shadow: 0 0 15px rgba(0, 212, 255, 0.15); } .dev-role { color: #888; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; } .dev-name { color: #fff; font-size: 1.1em; font-weight: bold; margin-bottom: 10px; } .linkedin-btn { background-color: #0077b5; color: white; text-decoration: none; padding: 8px 15px; border-radius: 5px; font-size: 0.85em; font-weight: bold; display: inline-block; transition: all 0.3s; } .linkedin-btn:hover { background-color: #005e93; color: white; transform: scale(1.05); }</style>""", unsafe_allow_html=True)
+
+# --- CSS CORRIGIDO (DARK MODE FORÇADO) ---
+st.markdown("""
+    <style>
+    /* Força o fundo escuro na aplicação inteira */
+    .stApp {
+        background-color: #0e1117;
+    }
+    
+    /* Força o fundo escuro na BARRA LATERAL (Sidebar) */
+    [data-testid="stSidebar"] {
+        background-color: #0e1117;
+        border-right: 1px solid #2d303e;
+    }
+
+    /* Garante que textos sejam claros */
+    h1, h2, h3, h4, p, div, span, label {
+        color: #e0e0e0 !important;
+        font-family: 'Segoe UI', sans-serif;
+    }
+    
+    /* Ajuste específico para o Selectbox na Sidebar */
+    .stSelectbox label {
+        color: #e0e0e0 !important;
+    }
+    
+    /* Cards */
+    .medical-card { background-color: #1a1c24; border: 1px solid #2d303e; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+    div[data-testid="stMetric"] { background-color: #22252b !important; border-left: 4px solid #00d4ff; border-radius: 8px; padding: 10px 15px !important; }
+    
+    /* Badges */
+    .risk-badge-high { background-color: #d32f2f; color: white; padding: 8px 20px; border-radius: 8px; font-weight: bold; white-space: nowrap; }
+    .risk-badge-low { background-color: #2e7d32; color: white; padding: 8px 20px; border-radius: 8px; font-weight: bold; white-space: nowrap; }
+    
+    /* Tabs */
+    button[data-baseweb="tab"] { background-color: #161920 !important; border: 1px solid #2d303e !important; color: #aaa !important; margin-right: 2px; }
+    button[data-baseweb="tab"][aria-selected="true"] { background-color: #00d4ff !important; color: #000 !important; font-weight: bold !important; border: none !important; }
+    
+    /* Dev Profile */
+    .dev-profile-card { background-color: #1a1c24; border: 1px solid #00d4ff; border-radius: 10px; padding: 15px; text-align: center; margin-bottom: 25px; box-shadow: 0 0 15px rgba(0, 212, 255, 0.15); }
+    .dev-role { color: #888; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+    .dev-name { color: #fff; font-size: 1.1em; font-weight: bold; margin-bottom: 10px; }
+    .linkedin-btn { background-color: #0077b5; color: white; text-decoration: none; padding: 8px 15px; border-radius: 5px; font-size: 0.85em; font-weight: bold; display: inline-block; transition: all 0.3s; }
+    .linkedin-btn:hover { background-color: #005e93; color: white; transform: scale(1.05); }
+    </style>
+""", unsafe_allow_html=True)
 
 pacientes = carregar_dados_pacientes()
 if not pacientes: st.stop()
 
+# --- SIDEBAR ---
 with st.sidebar:
     st.markdown("""<div class="dev-profile-card"><div class="dev-role">Software & Research</div><div class="dev-name">Farm. Thiago Abranches</div><a href="https://www.linkedin.com/in/thiago-abranches/" target="_blank" class="linkedin-btn">🔗 Conectar no LinkedIn</a></div>""", unsafe_allow_html=True)
     st.title("🧬 GBM Precision")
@@ -57,6 +103,7 @@ with st.sidebar:
     st.progress(kps/100)
     st.info("Status: Online")
 
+# --- HEADER ---
 m1 = dados['modulo_1_estatistica']
 risco = m1['grupo_risco']
 classe_risco = "risk-badge-high" if risco in ["Alto", "Altíssimo", "Médio-Alto"] else "risk-badge-low"
